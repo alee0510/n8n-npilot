@@ -1,0 +1,18 @@
+export type Action =
+  | 'NAVIGATE'
+  | 'CLICK'
+  | 'TYPE'
+  | 'SELECT'
+  | 'CHECK'
+  | 'WAIT_FOR_SELECTOR'
+  | 'WAIT_FOR_NAVIGATIOON'
+  | 'WAIT_FOR_TIMEOUT'
+  | 'EXTRACT_TEXT'
+  | 'EXTARCT_ATTRIBUTE'
+  | 'EXTRACT_TABLE'
+  | 'SCREENSHOOT'
+  | 'evaluate'
+  | 'SCROLL_TO'
+  | 'HOVER'
+  | 'PRESS_KEY'
+  | 'CLOSE_SESSION';
