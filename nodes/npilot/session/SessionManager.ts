@@ -55,7 +55,7 @@ class SessionManager {
 			}
 		}
 
-		const engine = this.pickEngine(opts.browserType ?? 'CHROMIUM');
+		const engine = this.pickEngine(opts.browserType ?? 'chromium');
 		const browser = await engine.launch({
 			headless: opts.headless ?? true,
 			args: [
@@ -166,9 +166,9 @@ class SessionManager {
 	 */
 	private pickEngine(type: BrowserType) {
 		switch (type) {
-			case 'FIREFOX':
+			case 'firefox':
 				return firefox;
-			case 'WEBKIT':
+			case 'webkit':
 				return webkit;
 			default:
 				return chromium;
