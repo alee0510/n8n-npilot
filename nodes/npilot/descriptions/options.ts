@@ -26,6 +26,7 @@ export const AdditionalOptions: INodeProperties = {
 				multipleValues: true,
 			},
 			default: {},
+			placeholder: 'Add Header',
 			description: 'Additional headers sent with every browser request',
 			options: [
 				{
