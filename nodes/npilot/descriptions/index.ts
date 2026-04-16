@@ -30,7 +30,7 @@ const descriptions: INodeTypeDescription = {
 		},
 		{
 			displayName: 'Session ID',
-			name: 'sessionID',
+			name: 'sessionId',
 			type: 'string',
 			placeholder: 'e.q. xyz789abc',
 			default: '',
