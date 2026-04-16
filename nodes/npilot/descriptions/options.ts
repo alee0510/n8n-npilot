@@ -20,26 +20,33 @@ export const AdditionalOptions: INodeProperties = {
 		},
 		{
 			displayName: 'Extra HTTP Headers',
-			name: 'extraHTTPHeader',
+			name: 'extraHTTPHeaders',
 			type: 'fixedCollection',
-			placeholder: 'Add Extra HTTP Header',
+			typeOptions: {
+				multipleValues: true,
+			},
 			default: {},
+			description: 'Additional headers sent with every browser request',
 			options: [
 				{
-					displayName: '',
-					name: 'header',
+					displayName: 'Header',
+					name: 'headerValues',
 					values: [
 						{
-							displayName: 'Field Name',
-							name: 'field',
+							displayName: 'Name',
+							name: 'name',
 							type: 'string',
 							default: '',
+							placeholder: 'X-Custom-Header',
+							description: 'Header name',
 						},
 						{
 							displayName: 'Value',
 							name: 'value',
 							type: 'string',
 							default: '',
+							placeholder: 'my-value',
+							description: 'Header value',
 						},
 					],
 				},
