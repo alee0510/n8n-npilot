@@ -15,19 +15,9 @@ export type AdditionalOptions = {
 	viewport?: { height: number; width: number };
 };
 
-export enum WaitUntil {
-	domcontentloaded,
-	networkidle,
-	load,
-	commit,
-}
+export type WaitUntil = 'domcontentloaded' | 'networkidle' | 'load' | 'commit';
 
-export enum WaitState {
-	visible,
-	hidden,
-	attached,
-	detached,
-}
+export type WaitState = 'visible' | 'hidden' | 'attached' | 'detached';
 
 export type Step = {
 	action: Action;
