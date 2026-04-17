@@ -1,5 +1,6 @@
 /* eslint-disable @n8n/community-nodes/no-restricted-imports */
 import { Page } from 'playwright';
+import type { WaitUntil, WaitState } from '../types/Npilot.types';
 
 export class ActionManager {
 	constructor(private page: Page) {}
@@ -9,7 +10,7 @@ export class ActionManager {
 		timeout,
 	}: {
 		url: string;
-		waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit' | undefined;
+		waitUntil?: WaitUntil;
 		timeout?: number;
 	}): Promise<string> {
 		await this.page.goto(url, { waitUntil, timeout });
@@ -59,13 +60,13 @@ export class ActionManager {
 		timeout,
 	}: {
 		selector: string;
-		state: 'attached' | 'visible' | undefined;
+		state: WaitState;
 		timeout: number;
 	}) {
 		await this.page.waitForSelector(selector, { state, timeout });
 	}
 
-	async waitForNavigator({ url, timeout }: { url: string; timeout: number }) {
+	async waitForNavigation({ url, timeout }: { url: string; timeout: number }) {
 		await this.page.waitForURL(url, { timeout });
 	}
 
