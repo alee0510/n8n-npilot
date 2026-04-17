@@ -1,7 +1,7 @@
 // eslint-disable-next-line @n8n/community-nodes/no-restricted-imports
 import { Page, chromium, firefox, webkit } from 'playwright';
 import { randomUUID } from 'crypto';
-import type { BrowserType, SessionOptions, Session } from './types';
+import type { BrowserType, SessionOptions, Session } from '../types/Session.types';
 
 // Constants
 const DEFAULT_TTL_MS = 5 * 60 * 1000; // 5 minutes
