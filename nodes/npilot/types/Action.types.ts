@@ -15,4 +15,5 @@ export type Action =
 	| 'scrollTo'
 	| 'hover'
 	| 'pressKey'
+	| 'debug'
 	| 'closeSession';
