@@ -119,6 +119,9 @@ export class Npilot implements INodeType {
 							});
 							break;
 						case 'extractTable':
+							actionResult = await action.extractTable({
+								selector: step.selector || '',
+							});
 							break;
 						case 'extractText':
 							actionResult = await action.extractText({

@@ -88,7 +88,38 @@ export class ActionManager {
 		);
 	}
 
-	async extractTable() {}
+	async extractTable({ selector }: { selector: string }) {
+		return await this.page.$$eval(selector, (tables) => {
+			type TableCell = { textContent: string | null };
+			type TableRow = { cells: ArrayLike<TableCell> };
+			type TableEl = {
+				tHead: { rows: ArrayLike<TableRow> } | null;
+				tBodies: ArrayLike<{ rows: ArrayLike<TableRow> }>;
+			};
+
+			return tables.map((table) => {
+				const tableEl = table as unknown as TableEl;
+
+				// Collect header row from <thead> if present, otherwise fall back to the first <tbody> row
+				const headRows = tableEl.tHead ? Array.from(tableEl.tHead.rows) : [];
+				const bodyRows = Array.from(tableEl.tBodies).flatMap((body) => Array.from(body.rows));
+
+				const headerRow = headRows[0] ?? bodyRows[0];
+				if (!headerRow) return [];
+
+				const headers = Array.from(headerRow.cells).map((c) => c?.textContent?.trim() ?? '');
+				const dataRows = headRows.length ? bodyRows : bodyRows.slice(1);
+
+				return dataRows.map((row) => {
+					const obj: Record<string, string> = {};
+					Array.from(row.cells).forEach((c, idx) => {
+						obj[headers[idx] ?? `col${idx}`] = c?.textContent?.trim() ?? '';
+					});
+					return obj;
+				});
+			});
+		});
+	}
 
 	async screenshot({ fullPage }: { fullPage: boolean }): Promise<Buffer> {
 		return await this.page.screenshot({ type: 'png', fullPage });
