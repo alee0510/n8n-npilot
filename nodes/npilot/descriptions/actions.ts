@@ -38,6 +38,7 @@ export const Actions: INodeProperties = {
 						{ name: 'Extract Table', value: 'extractTable' },
 						{ name: 'Take Screenshot', value: 'screenshot' },
 						{ name: 'Evaluate JavaScript', value: 'evaluate' },
+						{ name: 'Debug', value: 'debug' },
 						{ name: 'Close Session', value: 'closeSession' },
 					],
 					default: 'navigate',
@@ -202,7 +203,14 @@ export const Actions: INodeProperties = {
 						'Field name where data will be stored. For screenshot, stores as binary data. For other actions, stores in JSON output. For dynamically loaded content, add Wait for Selector and/or Scroll + Wait (Fixed Timeout) steps before extraction.',
 					displayOptions: {
 						show: {
-							action: ['extractText', 'extractAttribute', 'extractTable', 'evaluate', 'screenshot'],
+							action: [
+								'extractText',
+								'extractAttribute',
+								'extractTable',
+								'evaluate',
+								'screenshot',
+								'debug',
+							],
 						},
 					},
 				},

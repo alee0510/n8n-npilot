@@ -104,6 +104,9 @@ export class Npilot implements INodeType {
 						case 'closeSession':
 							actionResult = await sessionManager.closeSession(sessionId);
 							break;
+						case 'debug':
+							actionResult = await action.debug();
+							break;
 						case 'evaluate':
 							actionResult = await action.evaluate({
 								expression: step.expression || '',
