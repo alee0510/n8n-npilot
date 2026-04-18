@@ -97,7 +97,7 @@ export class ActionManager {
 				tBodies: ArrayLike<{ rows: ArrayLike<TableRow> }>;
 			};
 
-			return tables.map((table) => {
+			return tables.flatMap((table) => {
 				const tableEl = table as unknown as TableEl;
 
 				// Collect header row from <thead> if present, otherwise fall back to the first <tbody> row
