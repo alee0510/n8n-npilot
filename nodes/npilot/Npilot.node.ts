@@ -65,8 +65,18 @@ export class Npilot implements INodeType {
 				// get page
 				const page = sessionManager.getPage(sessionId);
 
+				// check operation mode
+				const mode = this.getNodeParameter('mode', i, '') as 'action' | 'json' | undefined;
+				let steps: Array<Step> = [];
+				if (mode === 'action') {
+					steps = this.getNodeParameter('steps.step', i, []) as Array<Step>;
+				}
+				if (mode === 'json') {
+					const rawScript = this.getNodeParameter('script', i, '') as string;
+					steps = JSON.parse(rawScript) as Array<Step>;
+				}
+
 				// get the action parameter
-				const steps = this.getNodeParameter('steps.step', i, []) as Array<Step>;
 				const action = new ActionManager(page);
 
 				// do all action
@@ -179,6 +189,7 @@ export class Npilot implements INodeType {
 					json: {
 						...items[i].json,
 						sessionId,
+						steps,
 					},
 					pairedItem: { item: i },
 				});
