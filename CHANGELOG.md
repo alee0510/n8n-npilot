@@ -1,5 +1,20 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- Added `debug` action to inspect current page state (URL, title, HTML content) for troubleshooting selector issues
+
+### Changed
+
+- Improved `selector` field description with guidance on using simple, reliable selectors and avoiding brittle long CSS paths
+- Enhanced error troubleshooting by recommending Debug action when selectors fail
+
+### Fixed
+
+- N/A
+
 ## [0.1.0] - 2026-04-17
 
 ### Added

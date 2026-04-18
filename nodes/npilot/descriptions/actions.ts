@@ -38,6 +38,7 @@ export const Actions: INodeProperties = {
 						{ name: 'Extract Table', value: 'extractTable' },
 						{ name: 'Take Screenshot', value: 'screenshot' },
 						{ name: 'Evaluate JavaScript', value: 'evaluate' },
+						{ name: 'Debug', value: 'debug' },
 						{ name: 'Close Session', value: 'closeSession' },
 					],
 					default: 'navigate',
@@ -89,7 +90,8 @@ export const Actions: INodeProperties = {
 						},
 					},
 					placeholder: '#submit-button, [data-testid="login"]',
-					description: 'CSS selector or XPath. It auto-waits for the element.',
+					description:
+						'CSS selector, XPath, or text selector. Tip: Use simple selectors like #ID, .class, or text=Content for reliability. Avoid long CSS paths. Use Debug action to inspect page HTML if selector fails.',
 				},
 				// --- Type ---
 				{
@@ -170,6 +172,8 @@ export const Actions: INodeProperties = {
 					name: 'attributeName',
 					type: 'string',
 					default: 'href',
+					description:
+						'Attribute to extract. For lazy-loaded content (e.g., image src), add Scroll + Wait (Fixed Timeout) steps before this action.',
 					displayOptions: { show: { action: ['extractAttribute'] } },
 				},
 				// --- Screenshot ---
@@ -179,14 +183,6 @@ export const Actions: INodeProperties = {
 					type: 'boolean',
 					default: false,
 					displayOptions: { show: { action: ['screenshot'] } },
-				},
-				{
-					displayName: 'Output Field Name',
-					name: 'screenshotField',
-					type: 'string',
-					default: 'screenshot',
-					displayOptions: { show: { action: ['screenshot'] } },
-					description: 'Field name in output JSON that will hold the base64 PNG',
 				},
 				// --- Evaluate ---
 				{
@@ -204,9 +200,18 @@ export const Actions: INodeProperties = {
 					name: 'outputField',
 					type: 'string',
 					default: 'result',
+					description:
+						'Field name where data will be stored. For screenshot, stores as binary data. For other actions, stores in JSON output. For dynamically loaded content, add Wait for Selector and/or Scroll + Wait (Fixed Timeout) steps before extraction.',
 					displayOptions: {
 						show: {
-							action: ['extractText', 'extractAttribute', 'extractTable', 'evaluate'],
+							action: [
+								'extractText',
+								'extractAttribute',
+								'extractTable',
+								'evaluate',
+								'screenshot',
+								'debug',
+							],
 						},
 					},
 				},

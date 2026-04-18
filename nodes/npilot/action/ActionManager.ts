@@ -83,7 +83,7 @@ export class ActionManager {
 	async extractAttribute({ selector, attribute }: { selector: string; attribute: string }) {
 		return await this.page.$$eval(
 			selector,
-			(els, a) => els.map((el) => el?.getAttribute(a)),
+			(els, a) => els.map((el) => el?.getAttribute(a) ?? null),
 			attribute,
 		);
 	}
@@ -92,6 +92,14 @@ export class ActionManager {
 
 	async screenshot({ fullPage }: { fullPage: boolean }): Promise<Buffer> {
 		return await this.page.screenshot({ type: 'png', fullPage });
+	}
+
+	async debug(): Promise<{ url: string; title: string; html: string }> {
+		return {
+			url: this.page.url(),
+			title: await this.page.title(),
+			html: await this.page.content(),
+		};
 	}
 
 	async evaluate({ expression }: { expression: string }) {
