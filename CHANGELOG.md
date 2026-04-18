@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-04-18
+
 ### Added
 
 - Added `debug` action to inspect current page state (URL, title, HTML content) for troubleshooting selector issues
@@ -10,10 +12,13 @@
 
 - Improved `selector` field description with guidance on using simple, reliable selectors and avoiding brittle long CSS paths
 - Enhanced error troubleshooting by recommending Debug action when selectors fail
+- Improved `extractTable` action to ignore `<tfoot>` rows — only `<thead>` and `<tbody>` content is extracted
+- Improved `extractTable` action to return a flat array of row objects instead of a nested array
 
 ### Fixed
 
-- N/A
+- Fixed `extractTable` returning a double-nested array (`[[...]]`) when the selector matched a single table
+- Fixed `extractTable` including footer rows in the extracted data due to use of `table.rows`
 
 ## [0.1.0] - 2026-04-17
 
