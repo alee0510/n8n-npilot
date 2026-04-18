@@ -189,7 +189,6 @@ export class Npilot implements INodeType {
 					json: {
 						...items[i].json,
 						sessionId,
-						steps,
 					},
 					pairedItem: { item: i },
 				});

@@ -1,7 +1,7 @@
 {
 	"name": "n8n-nodes-npilot",
 	"version": "0.1.0",
-	"description": "A mini RPA enginer",
+	"description": "A mini RPA engine",
 	"license": "MIT",
 	"homepage": "",
 	"keywords": [
