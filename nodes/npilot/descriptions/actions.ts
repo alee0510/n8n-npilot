@@ -90,7 +90,8 @@ export const Actions: INodeProperties = {
 						},
 					},
 					placeholder: '#submit-button, [data-testid="login"]',
-					description: 'CSS selector or XPath. It auto-waits for the element.',
+					description:
+						'CSS selector, XPath, or text selector. Tip: Use simple selectors like #ID, .class, or text=Content for reliability. Avoid long CSS paths. Use Debug action to inspect page HTML if selector fails.',
 				},
 				// --- Type ---
 				{
