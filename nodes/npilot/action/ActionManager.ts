@@ -83,7 +83,7 @@ export class ActionManager {
 	async extractAttribute({ selector, attribute }: { selector: string; attribute: string }) {
 		return await this.page.$$eval(
 			selector,
-			(els, a) => els.map((el) => el?.getAttribute(a)),
+			(els, a) => els.map((el) => el?.getAttribute(a) ?? null),
 			attribute,
 		);
 	}
