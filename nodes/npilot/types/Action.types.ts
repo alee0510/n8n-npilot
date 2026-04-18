@@ -1,0 +1,18 @@
+export type Action =
+	| 'navigate'
+	| 'click'
+	| 'type'
+	| 'select'
+	| 'check'
+	| 'waitForSelector'
+	| 'waitForNavigation'
+	| 'waitForTimeout'
+	| 'extractText'
+	| 'extractAttribute'
+	| 'extractTable'
+	| 'screenshot'
+	| 'evaluate'
+	| 'scrollTo'
+	| 'hover'
+	| 'pressKey'
+	| 'closeSession';

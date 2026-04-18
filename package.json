@@ -1,48 +1,53 @@
 {
-    "name": "n8n-nodes-npilot",
-    "version": "0.1.0",
-    "description": "A mini RPA enginer",
-    "license": "MIT",
-    "homepage": "",
-    "keywords": [
-        "n8n-community-node-package"
-    ],
-    "author": {
-        "name": "Ali Muksin",
-        "email": "ali.muksin0510@gmail.com"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/alee0510/n8n-npilot"
-    },
-   "scripts": {
+	"name": "n8n-nodes-npilot",
+	"version": "0.1.0",
+	"description": "A mini RPA engine",
+	"license": "MIT",
+	"homepage": "",
+	"keywords": [
+		"n8n-community-node-package"
+	],
+	"author": {
+		"name": "Ali Muksin",
+		"email": "ali.muksin0510@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/alee0510/n8n-npilot"
+	},
+	"scripts": {
 		"build": "n8n-node build",
 		"build:watch": "tsc --watch",
-		"dev": "n8n-node dev",
+		"dev": "n8n-node dev --external-n8n",
 		"lint": "n8n-node lint",
 		"lint:fix": "n8n-node lint --fix",
 		"release": "n8n-node release",
-		"prepublishOnly": "n8n-node prerelease"
+		"prepublishOnly": "n8n-node prerelease",
+		"cleanup": "pkill -f 'ms-playwright.*chromium' || true",
+		"postinstall": "playwright install chromium"
 	},
-    "files": [
-        "dist"
-    ],
-    "n8n": {
-        "n8nNodesApiVersion": 1,
-        "strict": true,
-        "credentials": [],
-        "nodes": [
-            "dist/nodes/npilot/Npilot.node.js"
-        ]
-    },
-    "devDependencies": {
-        "@n8n/node-cli": "*",
-        "eslint": "9.32.0",
-        "prettier": "3.6.2",
-        "release-it": "^19.0.4",
-        "typescript": "5.9.2"
-    },
-    "peerDependencies": {
-        "n8n-workflow": "*"
-    }
+	"files": [
+		"dist"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"strict": true,
+		"credentials": [],
+		"nodes": [
+			"dist/nodes/npilot/Npilot.node.js"
+		]
+	},
+	"devDependencies": {
+		"@n8n/node-cli": "^0.23.1",
+		"eslint": "9.32.0",
+		"prettier": "3.6.2",
+		"release-it": "^19.0.4",
+		"typescript": "5.9.2"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	},
+	"dependencies": {
+		"playwright": "^1.59.1"
+	}
 }

@@ -2,6 +2,10 @@
 import { NodeConnectionTypes } from 'n8n-workflow';
 import type { INodeTypeDescription } from 'n8n-workflow';
 
+// declarative interface
+import { AdditionalOptions } from './options';
+import { Actions } from './actions';
+
 const descriptions: INodeTypeDescription = {
 	displayName: 'Npilot',
 	name: 'npilot',
@@ -26,7 +30,7 @@ const descriptions: INodeTypeDescription = {
 		},
 		{
 			displayName: 'Session ID',
-			name: 'sessionID',
+			name: 'sessionId',
 			type: 'string',
 			placeholder: 'e.q. xyz789abc',
 			default: '',
@@ -38,20 +42,20 @@ const descriptions: INodeTypeDescription = {
 			},
 		},
 		{
-			displayName: 'Mode',
+			displayName: 'Operation Modes',
 			name: 'mode',
 			type: 'options',
 			options: [
 				{ name: 'Action Based', value: 'action' },
-				{ name: 'JSON Based', value: 'json' },
+				{ name: 'Script Based (JSON)', value: 'json' },
 			],
 			default: 'action',
 		},
 		{
-			displayName: 'Script or JSON Based',
-			name: 'scriptBased',
+			displayName: 'Script Based (JSON)',
+			name: 'script',
 			type: 'json',
-			default: '{}',
+			default: '[{ }]',
 			typeOptions: { rows: 4 },
 			displayOptions: {
 				show: {
@@ -59,122 +63,8 @@ const descriptions: INodeTypeDescription = {
 				},
 			},
 		},
-		{
-			displayName: 'Steps',
-			name: 'steps',
-			type: 'fixedCollection',
-			typeOptions: {
-				multipleValues: true,
-				sortable: true,
-			},
-			default: {},
-			placeholder: 'Add New Step',
-			options: [
-				{
-					displayName: 'Step',
-					name: 'step',
-					// eslint-disable-next-line n8n-nodes-base/node-param-fixed-collection-type-unsorted-items
-					values: [
-						{
-							displayName: 'Action',
-							name: 'action',
-							type: 'options',
-							// eslint-disable-next-line n8n-nodes-base/node-param-options-type-unsorted-items
-							options: [
-								{ name: 'Go to URL', value: 'goto' },
-								{ name: 'Click', value: 'click' },
-								{ name: 'Type Text', value: 'type' },
-								{ name: 'Extract Text', value: 'extractText' },
-								{ name: 'Screenshot', value: 'screenshot' },
-							],
-							default: 'goto',
-						},
-						{
-							displayName: 'Selector',
-							name: 'selector',
-							type: 'string',
-							default: '',
-							displayOptions: {
-								show: {
-									action: ['click', 'type', 'extractText'],
-								},
-							},
-							placeholder: '#submit-btn, .login-form',
-						},
-						{
-							displayName: 'URL',
-							name: 'url',
-							type: 'string',
-							default: '',
-							displayOptions: {
-								show: { action: ['goto'] },
-							},
-							placeholder: 'https://example.com',
-						},
-						{
-							displayName: 'Text',
-							name: 'text',
-							type: 'string',
-							default: '',
-							displayOptions: {
-								show: { action: ['type'] },
-							},
-						},
-						{
-							displayName: 'Output Field',
-							name: 'outputField',
-							type: 'string',
-							default: 'result',
-							displayOptions: {
-								show: { action: ['extractText', 'screenshot'] },
-							},
-						},
-					],
-				},
-			],
-			displayOptions: {
-				show: {
-					mode: ['action'],
-				},
-			},
-		},
-		{
-			displayName: 'Default Delay',
-			name: 'defaultDelay',
-			type: 'options',
-			default: 'none',
-			options: [
-				{ name: 'None', value: 'none' },
-				{ name: 'Fixed', value: 'fixed' },
-			],
-		},
-		{
-			displayName: 'Intervals',
-			name: 'interval',
-			type: 'number',
-			default: 5,
-			displayOptions: {
-				show: {
-					defaultDelay: ['fixed'],
-				},
-			},
-		},
-		{
-			displayName: '',
-			name: 'unit',
-			type: 'options',
-			default: 'ms',
-			options: [
-				{ name: 'Miliseconds', value: 'ms' },
-				{ name: 'Seconds', value: 's' },
-				{ name: 'Minutes', value: 'm' },
-			],
-			displayOptions: {
-				show: {
-					defaultDelay: ['fixed'],
-				},
-			},
-		},
+		Actions,
+		AdditionalOptions,
 	],
 };
 
