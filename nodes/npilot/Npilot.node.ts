@@ -55,7 +55,6 @@ export class Npilot implements INodeType {
 
 				// open new browser
 				if (session == 'new') {
-					this.logger.info('options', options);
 					sessionId = await sessionManager.openSession({
 						...options,
 						extraHTTPHeaders,
@@ -99,7 +98,7 @@ export class Npilot implements INodeType {
 						case 'click':
 							actionResult = await action.click({
 								selector: step.selector || '',
-								timeout: step.timeout || 1000,
+								timeout: step.timeout || 30000,
 							});
 							break;
 						case 'closeSession':
@@ -159,14 +158,14 @@ export class Npilot implements INodeType {
 						case 'waitForNavigation':
 							actionResult = await action.waitForNavigation({
 								url: step.url || '',
-								timeout: step.timeout || 1000,
+								timeout: step.timeout || 30000,
 							});
 							break;
 						case 'waitForSelector':
 							actionResult = await action.waitForSelector({
 								selector: step.selector || '',
 								state: step.waitState || 'visible',
-								timeout: step.timeout || 1000,
+								timeout: step.timeout || 30000,
 							});
 							break;
 						case 'waitForTimeout':
@@ -178,9 +177,19 @@ export class Npilot implements INodeType {
 							actionResult = await sessionManager.closeAll();
 					}
 
-					// store reesult if action return data
+					// store result if action return data
 					if (actionResult !== undefined && step.outputField) {
-						items[i].json[step.outputField] = actionResult;
+						if (step.action == 'screenshot') {
+							// Store as binary data
+							items[i].binary = items[i].binary ?? {};
+							items[i].binary![step.outputField] = await this.helpers.prepareBinaryData(
+								actionResult as Buffer,
+								'screenshot.png',
+								'image/png',
+							);
+						} else {
+							items[i].json[step.outputField] = actionResult;
+						}
 					}
 				}
 
@@ -190,6 +199,7 @@ export class Npilot implements INodeType {
 						...items[i].json,
 						sessionId,
 					},
+					...(items[i].binary && { binary: items[i].binary }),
 					pairedItem: { item: i },
 				});
 			} catch (error) {
