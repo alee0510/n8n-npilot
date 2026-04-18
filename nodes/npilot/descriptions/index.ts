@@ -53,9 +53,9 @@ const descriptions: INodeTypeDescription = {
 		},
 		{
 			displayName: 'Script Based (JSON)',
-			name: 'scriptBased',
+			name: 'script',
 			type: 'json',
-			default: '{}',
+			default: '[{ }]',
 			typeOptions: { rows: 4 },
 			displayOptions: {
 				show: {
