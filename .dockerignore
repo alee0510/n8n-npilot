@@ -1,0 +1,44 @@
+# Dependencies — reinstalled inside the container
+node_modules/
+
+# TypeScript source — only the compiled dist/ is needed at runtime
+nodes/
+tsconfig.json
+*.tsbuildinfo
+
+# Dev tooling & config
+eslint.config.mjs
+.agents/
+AGENTS.md
+CLAUDE.md
+CHANGELOG.md
+README.md
+
+# Version control
+.git/
+.gitignore
+
+# Editor directories
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# n8n local dev data
+.n8n/
