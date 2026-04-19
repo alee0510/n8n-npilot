@@ -62,6 +62,8 @@ const descriptions: INodeTypeDescription = {
 					mode: ['json'],
 				},
 			},
+			description:
+				'A JSON array of step objects that mirrors the <b>Action Based</b> mode. Each object must have an <code>action</code> key (e.g. <code>navigate</code>, <code>click</code>, <code>type</code>) plus the corresponding fields for that action. Steps are executed in order. Use this mode to pass a dynamically built script from an earlier node.',
 		},
 		Actions,
 		AdditionalOptions,
