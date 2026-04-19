@@ -23,8 +23,7 @@
 		"lint:fix": "n8n-node lint --fix",
 		"release": "n8n-node release",
 		"prepublishOnly": "n8n-node prerelease",
-		"cleanup": "pkill -f 'ms-playwright.*chromium' || true",
-		"postinstall": "playwright install chromium"
+		"cleanup": "pkill -f 'ms-playwright.*chromium' || true"
 	},
 	"files": [
 		"dist"
