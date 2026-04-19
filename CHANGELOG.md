@@ -2,6 +2,27 @@
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-04-19
+
+### Added
+
+- Added Docker support for three environments:
+  - `Dockerfile` + `docker-compose.yaml` — production image that installs `n8n-nodes-npilot` from the npm registry
+  - `Dockerfile.dev` + `docker-compose.dev.yaml` — development image that volume-mounts the local `dist/` build for rapid iteration
+  - `Dockerfile.test` + `docker-compose.test.yaml` — pre-publish integration test image that installs from a local `.tgz` tarball
+- Added `.dockerignore` to exclude `node_modules`, source files, and dev tooling from the Docker build context
+- Added `*.tgz` to `.gitignore` so `npm pack` artefacts are not committed
+
+### Changed
+
+- `ensureBrowserInstalled` now reads `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` and passes it as `executablePath` to `chromium.launch()`, allowing a system-provided Chromium binary (e.g. from Alpine Linux) to be used instead of playwright's own downloaded browser
+- `ensureBrowserInstalled` now passes `--no-sandbox` and `--disable-setuid-sandbox` launch args, which are required when running as a non-root user inside Docker
+- `ensureBrowserInstalled` now surfaces the actual Playwright error in the node error message instead of always showing a generic "not installed" hint, making misconfigured executable paths easier to diagnose
+- `SessionManager.openSession` now reads `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` and passes it as `executablePath` when `browserType` is `chromium`, consistent with the check in `ensureBrowserInstalled`
+- Reordered step actions in the action selector for better usability
+- Removed `postinstall` script from `package.json` to prevent Playwright from automatically downloading browsers on `npm install` (browser setup is now the responsibility of the deployment environment)
+- Bumped package version to `0.1.2`
+
 ## [0.1.1] - 2026-04-18
 
 ### Added

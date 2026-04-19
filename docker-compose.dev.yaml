@@ -1,0 +1,39 @@
+services:
+  n8n:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: n8n-npilot:dev
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_USER:-admin}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_PASSWORD:-changeme}
+      - N8N_HOST=${N8N_HOST:-localhost}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://${N8N_HOST:-localhost}:5678/
+      - BROWSER_MAX_SESSIONS=${BROWSER_MAX_SESSIONS:-5}
+      - BROWSER_DEFAULT_TTL_MINUTES=${BROWSER_DEFAULT_TTL_MINUTES:-5}
+      - PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/lib/chromium/chromium
+      - "PLAYWRIGHT_LAUNCH_ARGS=--no-sandbox --disable-setuid-sandbox
+        --disable-dev-shm-usage"
+      - N8N_CUSTOM_EXTENSIONS=/home/node/.n8n/custom
+
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./dist:/home/node/.n8n/custom/n8n-nodes-npilot/dist:ro
+      - ./package.json:/home/node/.n8n/custom/n8n-nodes-npilot/package.json:ro
+
+    shm_size: "512mb"
+
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+volumes:
+  n8n_data:
+

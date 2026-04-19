@@ -1,3 +1,4 @@
+/* eslint-disable @n8n/community-nodes/no-restricted-imports */
 import type {
 	IExecuteFunctions,
 	INodeExecutionData,
@@ -5,10 +6,29 @@ import type {
 	INodeTypeDescription,
 } from 'n8n-workflow';
 import { NodeOperationError } from 'n8n-workflow';
+import { chromium } from 'playwright';
 import descriptions from './descriptions';
 import { sessionManager } from './session/SessionManager';
 import { ActionManager } from './action/ActionManager';
 import type { AdditionalOptions, Step } from './types/Npilot.types';
+
+async function ensureBrowserInstalled(context: IExecuteFunctions): Promise<void> {
+	// eslint-disable-next-line @n8n/community-nodes/no-restricted-globals
+	const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
+	try {
+		const browser = await chromium.launch({
+			timeout: 5000,
+			args: ['--no-sandbox', '--disable-setuid-sandbox'],
+			...(executablePath ? { executablePath } : {}),
+		});
+		await browser.close();
+	} catch (error) {
+		const message = executablePath
+			? `Failed to launch Chromium at "${executablePath}": ${(error as Error).message}`
+			: 'Chromium browser not installed. Please run: npx playwright install chromium --with-deps';
+		throw new NodeOperationError(context.getNode(), message);
+	}
+}
 
 export class Npilot implements INodeType {
 	description: INodeTypeDescription = {
@@ -18,6 +38,8 @@ export class Npilot implements INodeType {
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		// check if browser is installed
+		await ensureBrowserInstalled(this);
 		const items = this.getInputData(); // get all items from previous node
 		const results: INodeExecutionData[] = [];
 

@@ -1,0 +1,42 @@
+# Stage 1: Install Chromium on standard Alpine (has apk)
+FROM alpine:3.22 AS chromium-deps
+RUN apk add --no-cache \
+    chromium \
+    ca-certificates \
+    ttf-freefont && \
+    mkdir -p /chrom/usr/bin /chrom/usr/lib /chrom/usr/share && \
+    # Copy the actual ELF binary directly – avoids the /usr/bin/chromium-browser
+    # wrapper script that execs "$PROGDIR/chromium" (itself) causing an infinite loop
+    cp /usr/lib/chromium/chromium /chrom/usr/bin/chromium && \
+    # Copy the entire Chromium resource directory
+    cp -r /usr/lib/chromium /chrom/usr/lib/chromium && \
+    # Recursively copy ALL shared libs, preserving subdirectory structure
+    # (e.g. /usr/lib/pulseaudio/libpulsecommon.so, /usr/lib/gio/modules/*.so, etc.)
+    # -maxdepth 1 was causing "symbol not found" crashes for libs whose internal
+    # dependencies live in subdirectories. Stage 1 only has chromium + its deps
+    # so the recursive copy is still correctly scoped.
+    find /usr/lib -name '*.so*' -exec sh -c \
+        'dest="/chrom$(dirname "$1")"; mkdir -p "$dest"; cp -P "$1" "$dest/"' \
+        _ {} \; && \
+    # Fonts and certificates
+    cp -r /usr/share/fonts /chrom/usr/share/fonts && \
+    cp -r /usr/share/ca-certificates /chrom/usr/share/ca-certificates 2>/dev/null || true
+
+# Stage 2: n8n (Docker Hardened Image – Alpine 3.22, no apk)
+FROM n8nio/n8n:latest
+
+USER root
+
+# Drop in Chromium + its libraries from the builder stage
+COPY --from=chromium-deps /chrom/usr/ /usr/
+
+# Install playwright package globally (skip browser download – using system Chromium above)
+# NODE_PATH makes it resolvable from anywhere, including n8n's VM isolation context
+RUN npm install -g --no-fund --no-audit playwright
+
+ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/lib/chromium/chromium
+ENV PLAYWRIGHT_LAUNCH_ARGS="--no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage"
+# Expose global node_modules so require('playwright') resolves in n8n's VM sandbox
+ENV NODE_PATH=/usr/local/lib/node_modules
+
+USER node

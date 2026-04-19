@@ -1,0 +1,43 @@
+services:
+  n8n:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    image: n8n-npilot:test
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      # ── n8n core ────────────────────────────────────────────────────────────
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_USER:-admin}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_PASSWORD:-changeme}
+      - N8N_HOST=${N8N_HOST:-localhost}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://${N8N_HOST:-localhost}:5678/
+
+      # ── Browser session limits ───────────────────────────────────────────────
+      # Override defaults baked into SessionManager.ts at runtime
+      - BROWSER_MAX_SESSIONS=${BROWSER_MAX_SESSIONS:-5}
+      - BROWSER_DEFAULT_TTL_MINUTES=${BROWSER_DEFAULT_TTL_MINUTES:-5}
+
+      # ── Playwright ──────────────────────────────────────────────────────────
+      - PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/lib/chromium/chromium
+      - "PLAYWRIGHT_LAUNCH_ARGS=--no-sandbox --disable-setuid-sandbox
+        --disable-dev-shm-usage"
+
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+    # Chromium needs a larger /dev/shm — 512 MB is the safe floor
+    shm_size: "512mb"
+
+    # Limit blast radius of a runaway browser
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+volumes:
+  n8n_data:
