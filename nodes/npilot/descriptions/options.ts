@@ -7,17 +7,17 @@ export const AdditionalOptions: INodeProperties = {
 	placeholder: 'Add Options',
 	default: {},
 	options: [
-		{
-			displayName: 'Browser Type',
-			name: 'browserType',
-			type: 'options',
-			default: 'chromium',
-			options: [
-				{ name: 'Chromium', value: 'chromium' },
-				{ name: 'Firefox', value: 'firefox' },
-				{ name: 'Webkit', value: 'webkit' },
-			],
-		},
+		// {
+		// 	displayName: 'Browser Type',
+		// 	name: 'browserType',
+		// 	type: 'options',
+		// 	default: 'chromium',
+		// 	options: [
+		// 		{ name: 'Chromium', value: 'chromium' },
+		// 		{ name: 'Firefox', value: 'firefox' },
+		// 		{ name: 'Webkit', value: 'webkit' },
+		// 	],
+		// },
 		{
 			displayName: 'Extra HTTP Headers',
 			name: 'extraHTTPHeaders',
