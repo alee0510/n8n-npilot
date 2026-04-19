@@ -13,14 +13,20 @@ import { ActionManager } from './action/ActionManager';
 import type { AdditionalOptions, Step } from './types/Npilot.types';
 
 async function ensureBrowserInstalled(context: IExecuteFunctions): Promise<void> {
+	// eslint-disable-next-line @n8n/community-nodes/no-restricted-globals
+	const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
 	try {
-		const browser = await chromium.launch({ timeout: 5000 });
+		const browser = await chromium.launch({
+			timeout: 5000,
+			args: ['--no-sandbox', '--disable-setuid-sandbox'],
+			...(executablePath ? { executablePath } : {}),
+		});
 		await browser.close();
-	} catch {
-		throw new NodeOperationError(
-			context.getNode(),
-			'Chromium browser not installed. Please run: npx playwright install chromium --with-deps',
-		);
+	} catch (error) {
+		const message = executablePath
+			? `Failed to launch Chromium at "${executablePath}": ${(error as Error).message}`
+			: 'Chromium browser not installed. Please run: npx playwright install chromium --with-deps';
+		throw new NodeOperationError(context.getNode(), message);
 	}
 }
 
