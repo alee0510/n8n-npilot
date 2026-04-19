@@ -1,3 +1,4 @@
+/* eslint-disable @n8n/community-nodes/no-restricted-globals */
 // eslint-disable-next-line @n8n/community-nodes/no-restricted-imports
 import { Page, chromium, firefox, webkit } from 'playwright';
 import { randomUUID } from 'crypto';
@@ -55,9 +56,13 @@ class SessionManager {
 			}
 		}
 
-		const engine = this.pickEngine(opts.browserType ?? 'chromium');
+		const browserType = opts.browserType ?? 'chromium';
+		const engine = this.pickEngine(browserType);
+		const executablePath =
+			browserType === 'chromium' ? process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH : undefined;
 		const browser = await engine.launch({
 			headless: opts.headless ?? true,
+			...(executablePath ? { executablePath } : {}),
 			args: [
 				'--no-sandbox',
 				'--disable-setuid-sandbox',
