@@ -71,16 +71,61 @@ Restart n8n to pick up the new node and environment variable.
 
 ### Option 2 — Docker
 
-A ready-to-use `Dockerfile` is provided in the [GitHub repository](https://github.com/alee0510/n8n-npilot). It builds a production image that bundles n8n, Chromium, and the Npilot node in a single container — no additional setup required.
+A ready-to-use Docker image is available on [Docker Hub](https://hub.docker.com/r/alee0510/n8n-npilot). It bundles n8n, Chromium, and the Npilot node in a single container — no additional setup required.
 
-**Quick start:**
+**Quick start with pre-built image:**
 
 ```bash
-# Clone the repo (or copy just the Dockerfile and docker-compose.yaml)
+docker run -d \
+  -p 5678:5678 \
+  --name n8n-npilot \
+  --shm-size=512m \
+  -e N8N_BASIC_AUTH_ACTIVE=true \
+  -e N8N_BASIC_AUTH_USER=admin \
+  -e N8N_BASIC_AUTH_PASSWORD=changeme \
+  alee0510/n8n-npilot:latest
+```
+
+Access n8n at: http://localhost:5678
+
+**Using Docker Compose:**
+
+```yaml
+services:
+  n8n:
+    image: alee0510/n8n-npilot:latest
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=changeme
+    volumes:
+      - n8n_data:/home/node/.n8n
+    shm_size: "512mb"
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+volumes:
+  n8n_data:
+```
+
+Then run:
+
+```bash
+docker compose up -d
+```
+
+**Build from source (optional):**
+
+If you want to customize the image, clone the [GitHub repository](https://github.com/alee0510/n8n-npilot):
+
+```bash
 git clone https://github.com/alee0510/n8n-npilot.git
 cd n8n-npilot
-
-# Build and start
 docker compose up -d
 ```
 
@@ -88,7 +133,7 @@ The Docker image handles everything automatically:
 
 - Installs Chromium from Alpine Linux packages
 - Installs `n8n-nodes-npilot` from the npm registry
-- Sets `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` and `N8N_CUSTOM_EXTENSIONS`
+- Sets `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` and required environment variables
 
 ---
 
@@ -267,21 +312,44 @@ These options are available under the **Additional Options** section:
 
 ## Version history
 
-### 0.1.2 — 2026-04-19
+### [0.1.6] - 2026-05-28
+**Added**
+- Docker Hub image now available at `alee0510/n8n-npilot`
+- Pre-built Docker image for quick deployment without building from source
 
-- Added production `Dockerfile` + `docker-compose.yaml` for one-command deployment
-- Npilot now respects `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` for system-provided Chromium binaries
-- Improved error messages when the Chromium binary is misconfigured
-- Removed automatic browser download on `npm install` — browser setup is now the responsibility of the deployment environment
+**Changed**
+- Updated README.md with Docker Hub installation instructions
+- Reorganized Docker installation section to prioritize pre-built image
+- Added Docker Compose example using pre-built image
 
-### 0.1.1 — 2026-04-18
+**Fixed**
+- Configured npm automation token for CI/CD publishing without 2FA prompts
 
-- Added **Debug** action to inspect the current page URL, title, and HTML for troubleshooting
-- Fixed `Extract Table` returning a double-nested array and including footer rows
+### [0.1.5] - 2026-05-28
+**Fixed**
+- Removed `prepublishOnly` script for CI/CD compatibility
+- Added inline ESLint disable for `process.env` usage in SessionManager
+- Fixed npm publishing workflow to use direct `npm publish` command
 
-### 0.1.0 — 2026-04-17
+**Changed**
+- Updated GitHub Actions workflow to publish with npm provenance
+- Improved CI/CD pipeline for automated releases
 
-- Initial release
-- 17 browser automation actions powered by Playwright
-- Session-based architecture with automatic garbage collection
-- Action Based and Script Based (JSON) operation modes
+### [0.1.4] - 2026-05-28
+**Added**
+- Initial public release with browser automation capabilities
+- Session-based browser management
+- Support for Chromium, Firefox, and WebKit browsers
+- Multiple browser actions (navigate, click, type, screenshot, etc.)
+- Docker support with Playwright
+
+**Features**
+- Session pooling with automatic garbage collection
+- Configurable session TTL and max concurrent sessions
+- Screenshot capture with binary data support
+- Table extraction and text extraction
+- Custom HTTP headers and user agent support
+
+---
+
+For detailed changes, see [CHANGELOG.md](CHANGELOG.md)
