@@ -1,4 +1,3 @@
-/* eslint-disable @n8n/community-nodes/no-restricted-globals */
 // eslint-disable-next-line @n8n/community-nodes/no-restricted-imports
 import { Page, chromium, firefox, webkit } from 'playwright';
 import { randomUUID } from 'crypto';
