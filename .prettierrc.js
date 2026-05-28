@@ -48,4 +48,18 @@ module.exports = {
 	 * https://prettier.io/docs/en/options.html#print-width
 	 */
 	printWidth: 100,
+
+	/**
+	 * Markdown files must use spaces (not tabs) to satisfy markdownlint MD010.
+	 * https://prettier.io/docs/en/configuration.html#configuration-overrides
+	 */
+	overrides: [
+		{
+			files: ['*.md'],
+			options: {
+				useTabs: false,
+				tabWidth: 2,
+			},
+		},
+	],
 };

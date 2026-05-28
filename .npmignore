@@ -1,0 +1,44 @@
+# ─── Source & TypeScript ─────────────────────────────────────────────────────
+nodes/
+tsconfig.json
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# ─── Source maps (not needed by consumers) ───────────────────────────────────
+*.js.map
+
+# ─── Config & tooling ────────────────────────────────────────────────────────
+eslint.config.mjs
+.eslintrc*
+.prettierrc*
+.editorconfig
+
+# ─── Docker ──────────────────────────────────────────────────────────────────
+Dockerfile*
+docker-compose*.yaml
+
+# ─── Tests ───────────────────────────────────────────────────────────────────
+**/__tests__/
+**/*.test.js
+**/*.spec.js
+**/*.test.ts
+**/*.spec.ts
+jest.config.*
+
+# ─── Docs & meta ─────────────────────────────────────────────────────────────
+AGENTS.md
+CLAUDE.md
+screenshots/
+
+# ─── Packed tarballs ─────────────────────────────────────────────────────────
+*.tgz
+
+# ─── CI / agents ─────────────────────────────────────────────────────────────
+.github/
+.agents/
+
+# ─── IDE & OS ────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+*.log

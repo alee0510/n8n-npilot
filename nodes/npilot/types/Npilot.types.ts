@@ -1,8 +1,8 @@
-import type { BrowserType } from './Session.types';
+// import type { BrowserType } from './Session.types';
 import type { Action } from './Action.types';
 
 export type AdditionalOptions = {
-	browserType?: BrowserType;
+	// browserType?: BrowserType;
 	extraHTTPHeaders?: {
 		headerValues?: Array<{
 			name: string;

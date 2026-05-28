@@ -2,6 +2,27 @@
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-05-28
+
+### Added
+
+- Added `.npmignore` to explicitly exclude source files, Docker configs, dev tooling, screenshots, CI files, build artifacts (`*.tsbuildinfo`, `*.js.map`), and packed tarballs from the published package
+- Added Prettier config (`.prettierrc.js`) with Markdown-specific formatting rules
+
+### Changed
+
+- Updated `package.json` `files` field from `["dist"]` to explicit glob patterns (`dist/**/*.js`, `dist/**/*.d.ts`, `dist/**/*.json`, `dist/**/*.svg`) — reduces published package size by ~68% (179 kB → 58 kB unpacked) by excluding source maps and build cache files
+- Updated `package.json` keywords to improve npm discoverability (`rpa`, `browser-automation`, `web-scraping`, `playwright`, `chromium`, `scraper`, `screenshot`, `workflow`)
+- Updated `package.json` description to better reflect the node's capabilities
+- Simplified node icon SVGs (`npilot.svg`, `npilot.dark.svg`) with lighter markup
+- Improved field descriptions for `selector`, `attribute name`, `wait until`, and other action parameters
+- Added inline description for the JSON Script operation mode explaining its structure and use case
+- Removed `Browser Type` from additional options — only Chromium is supported in the current setup
+- Significantly expanded README with full usage documentation, action reference table, Docker setup guide, and ordered setup steps
+- Added screenshot images to README for visual documentation
+- Fixed Docker Compose production image version tag in `docker-compose.yaml`
+- Cleaned up `docker-compose.test.yaml` by removing redundant comments
+
 ## [0.1.2] - 2026-04-19
 
 ### Added
