@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-npilot",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"description": "Session-based browser automation node for n8n. Automate web interactions, extract data, and take screenshots using a Playwright-powered Chromium RPA engine.",
 	"license": "MIT",
 	"homepage": "",
