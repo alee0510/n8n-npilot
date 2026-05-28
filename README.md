@@ -2,6 +2,8 @@
 
 **Npilot** is an n8n community node that brings Playwright-powered browser automation into your workflows. Use it to navigate pages, interact with UI elements, extract structured data, take screenshots, and run custom JavaScript — all from within n8n, without writing a separate scraper.
 
+![screenshot](./screenshots/Screenshot%202026-05-28%20at%2022.36.16.png)
+
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/sustainable-use-license/) workflow automation platform.
 
 - [Installation](#installation)
@@ -142,10 +144,10 @@ Provide a JSON array of step objects directly. Each object must have an `action`
 
 ```json
 [
-  { "action": "navigate", "url": "https://example.com", "waitUntil": "domcontentloaded" },
-  { "action": "click", "selector": "#login-btn", "timeout": 5000 },
-  { "action": "type", "selector": "#email", "text": "user@example.com", "clearFirst": true },
-  { "action": "extractText", "selector": "h1", "outputField": "heading" }
+	{ "action": "navigate", "url": "https://example.com", "waitUntil": "domcontentloaded" },
+	{ "action": "click", "selector": "#login-btn", "timeout": 5000 },
+	{ "action": "type", "selector": "#email", "text": "user@example.com", "clearFirst": true },
+	{ "action": "extractText", "selector": "h1", "outputField": "heading" }
 ]
 ```
 
