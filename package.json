@@ -25,13 +25,16 @@
 		"type": "git",
 		"url": "https://github.com/alee0510/n8n-npilot"
 	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
 		"build": "n8n-node build",
 		"build:watch": "tsc --watch",
 		"dev": "n8n-node dev --external-n8n",
 		"lint": "n8n-node lint",
 		"lint:fix": "n8n-node lint --fix",
-		"release": "n8n-node release",
+		"release":"npm run lint && npm run build",
 		"prepublishOnly": "n8n-node prerelease",
 		"cleanup": "pkill -f 'ms-playwright.*chromium' || true"
 	},
