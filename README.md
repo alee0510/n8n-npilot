@@ -116,7 +116,7 @@ Npilot exposes **18 browser automation actions** organized across two operation 
 
 ## Usage
 
-### Session model
+### 1. Session model
 
 Npilot is **session-based**. Each node execution can either open a fresh browser session or reuse one from a previous node by passing the **Session ID**. This lets you chain multiple Npilot nodes in a workflow, keeping the same browser page open across steps.
 
@@ -126,17 +126,17 @@ Npilot is **session-based**. Each node execution can either open a fresh browser
 
 ---
 
-### Operation modes
+### 2. Operation modes
 
 Choose how you want to define browser steps using the **Operation Modes** field.
 
-#### Action Based _(default)_
+#### 2.1 Action Based _(default)_
 
 Build steps one by one using the UI. Each step has an **Action** dropdown that shows only the fields relevant to that action. Steps are executed top-to-bottom and can be reordered by dragging.
 
 Best for: building and testing workflows interactively.
 
-#### Script Based (JSON)
+#### 2.2 Script Based (JSON)
 
 Provide a JSON array of step objects directly. Each object must have an `action` key plus the corresponding fields for that action:
 
@@ -155,7 +155,7 @@ Best for: dynamically building a script in an earlier node (e.g. with a Code nod
 
 ### Actions reference
 
-#### Navigate to URL
+#### 1. Navigate to URL
 
 Opens a URL in the browser. Configure **Wait Until** to control when navigation is considered complete:
 
@@ -164,35 +164,35 @@ Opens a URL in the browser. Configure **Wait Until** to control when navigation 
 - `Load` — full page load event
 - `Commit` — response received; fastest, useful for redirects
 
-#### Click Element
+#### 2. Click Element
 
 Clicks the element matched by the **Selector**. Waits up to **Timeout** ms for the element to appear.
 
-#### Type Text
+#### 3. Type Text
 
 Types into the matched element. Enable **Clear Before Typing** to empty the field first (useful for pre-filled inputs).
 
-#### Select Option
+#### 4. Select Option
 
 Selects a `<select>` option by its `value` attribute (not the visible label). Use the **Debug** action to find the correct value if unsure.
 
-#### Check / Uncheck
+#### 5. Check / Uncheck
 
 Sets the checked state of a checkbox or radio button. Toggle **Checked** on or off.
 
-#### Hover-over Element
+#### 6. Hover-over Element
 
 Moves the mouse pointer over the matched element. Useful for triggering dropdown menus or tooltips.
 
-#### Scroll to Element
+#### 6. Scroll to Element
 
 Scrolls the matched element into view. Add this before **Extract Attribute** or **Extract Text** when content is lazy-loaded on scroll.
 
-#### Press Key
+#### 8. Press Key
 
 Dispatches a keyboard event. Common keys: `Enter`, `Tab`, `Escape`, `ArrowDown`, `ArrowUp`.
 
-#### Wait for Selector
+#### 8. Wait for Selector
 
 Pauses the workflow until an element matching the **Selector** reaches the target **State**:
 
@@ -201,27 +201,27 @@ Pauses the workflow until an element matching the **Selector** reaches the targe
 - `Hidden` — has `display:none`, `visibility:hidden`, or zero size
 - `Detached` — removed from the DOM
 
-#### Wait (Fixed Timeout)
+#### 10. Wait (Fixed Timeout)
 
 Pauses for exactly the number of milliseconds set in **Timeout**. Use as a last resort when selector-based waiting is not possible.
 
-#### Extract Text
+#### 11. Extract Text
 
 Reads the inner text of the matched element and saves it to **Output Field Name** in the JSON output.
 
-#### Extract Attribute
+#### 12. Extract Attribute
 
 Reads an HTML attribute (e.g. `href`, `src`, `data-id`) from the matched element. For lazy-loaded images or links, add a **Scroll to Element** + **Wait (Fixed Timeout)** step first.
 
-#### Extract Table
+#### 13. Extract Table
 
 Reads an HTML `<table>` matched by the selector and returns a flat array of row objects, using `<thead>` cells as keys. Saves to **Output Field Name**.
 
-#### Take Screenshot
+#### 14. Take Screenshot
 
 Captures the current viewport as a PNG image. Enable **Full Page** to capture the entire scrollable page. The image is stored as binary data under **Output Field Name**.
 
-#### Evaluate JavaScript
+#### 15. Evaluate JavaScript
 
 Runs a JavaScript function inside the browser context. The function must return a JSON-serialisable value (string, number, plain object, or array). The return value is saved to **Output Field Name**.
 
@@ -230,11 +230,11 @@ Runs a JavaScript function inside the browser context. The function must return 
 () => Array.from(document.querySelectorAll('a')).map((a) => a.href);
 ```
 
-#### Debug
+#### 16. Debug
 
 Captures the current page URL, title, and full HTML source and saves them to **Output Field Name**. Use this to inspect the page state when a selector fails.
 
-#### Close Session
+#### 17. Close Session
 
 Closes the browser session associated with the current Session ID and releases all resources. Always add this as the final step in a workflow to avoid leaving orphaned browser processes.
 
