@@ -28,6 +28,7 @@ jest.config.*
 # ─── Docs & meta ─────────────────────────────────────────────────────────────
 AGENTS.md
 CLAUDE.md
+DOCKER_HUB_OVERVIEW.md
 screenshots/
 
 # ─── Packed tarballs ─────────────────────────────────────────────────────────
