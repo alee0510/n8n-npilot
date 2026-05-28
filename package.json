@@ -1,11 +1,21 @@
 {
 	"name": "n8n-nodes-npilot",
 	"version": "0.1.2",
-	"description": "A mini RPA engine",
+	"description": "Session-based browser automation node for n8n. Automate web interactions, extract data, and take screenshots using a Playwright-powered Chromium RPA engine.",
 	"license": "MIT",
 	"homepage": "",
 	"keywords": [
-		"n8n-community-node-package"
+		"n8n-community-node-package",
+		"n8n",
+		"automation",
+		"rpa",
+		"browser-automation",
+		"web-scraping",
+		"playwright",
+		"chromium",
+		"scraper",
+		"screenshot",
+		"workflow"
 	],
 	"author": {
 		"name": "Ali Muksin",
