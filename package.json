@@ -34,7 +34,7 @@
 		"dev": "n8n-node dev --external-n8n",
 		"lint": "n8n-node lint",
 		"lint:fix": "n8n-node lint --fix",
-		"release":"npm run lint && npm run build",
+		"release": "n8n-node release",
 		"prepublishOnly": "n8n-node prerelease",
 		"cleanup": "pkill -f 'ms-playwright.*chromium' || true"
 	},
