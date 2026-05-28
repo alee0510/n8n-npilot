@@ -10,6 +10,7 @@ export type SessionOptions = {
 	userAgent?: string;
 	extraHTTPHeaders?: Record<string, string>;
 	ttlMs?: number; // idle TTL before auto-close
+	executablePath?: string; // path to a system-provided browser binary
 };
 
 export interface Session {

@@ -57,8 +57,7 @@ class SessionManager {
 
 		const browserType = opts.browserType ?? 'chromium';
 		const engine = this.pickEngine(browserType);
-		const executablePath =
-			browserType === 'chromium' ? process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH : undefined;
+		const executablePath = browserType === 'chromium' ? opts.executablePath : undefined;
 		const browser = await engine.launch({
 			headless: opts.headless ?? true,
 			...(executablePath ? { executablePath } : {}),

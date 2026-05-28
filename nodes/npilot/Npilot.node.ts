@@ -77,9 +77,12 @@ export class Npilot implements INodeType {
 
 				// open new browser
 				if (session == 'new') {
+					// eslint-disable-next-line @n8n/community-nodes/no-restricted-globals
+					const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
 					sessionId = await sessionManager.openSession({
 						...options,
 						extraHTTPHeaders,
+						...(executablePath ? { executablePath } : {}),
 					});
 				}
 
