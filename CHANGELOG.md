@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.7] - 2026-05-28
+
+### Changed
+- Updated README.md installation documentation for better clarity
+- Reorganized installation options to distinguish between native and Docker installations
+- Added warning about Alpine Linux incompatibility with Playwright
+- Improved Docker installation instructions with three clear sub-options
+- Added Easypanel migration guide in documentation
+
+### Documentation
+- Clarified that Option 1 (Self-hosted) is for non-Docker installations only
+- Added explicit warnings about official n8n Docker image limitations
+- Improved Docker Compose examples and configuration details
+- Added troubleshooting information for Docker-based deployments
+
 ## [0.1.6] - 2026-05-28
 
 ### Added

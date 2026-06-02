@@ -21,7 +21,9 @@ Npilot controls a real Chromium browser, so **Chromium must be available** in th
 
 ---
 
-### Option 1 — Self-hosted n8n
+### Option 1 — Self-hosted n8n (Non-Docker)
+
+**⚠️ This option is for native installations only** (Ubuntu, Debian, macOS, Windows). If you're running n8n in Docker, skip to [Option 2](#option-2--docker).
 
 #### Step 1 — Install the community node
 
@@ -71,9 +73,13 @@ Restart n8n to pick up the new node and environment variable.
 
 ### Option 2 — Docker
 
+**⚠️ Important**: The official n8n Docker image (`n8nio/n8n`) does **not** include a browser and uses Alpine Linux, which is incompatible with Playwright's Chromium binaries. To use Npilot in Docker, you have two options:
+
+#### Option 2A — Use the pre-built Npilot image (recommended)
+
 A ready-to-use Docker image is available on [Docker Hub](https://hub.docker.com/r/alee0510/n8n-npilot). It bundles n8n, Chromium, and the Npilot node in a single container — no additional setup required.
 
-**Quick start with pre-built image:**
+**Quick start:**
 
 ```bash
 docker run -d \
@@ -119,9 +125,42 @@ Then run:
 docker compose up -d
 ```
 
-**Build from source (optional):**
+#### Option 2B — Build a custom Debian-based n8n image
 
-If you want to customize the image, clone the [GitHub repository](https://github.com/alee0510/n8n-npilot):
+If you need to customize the setup, you can build your own image using n8n's **Debian variant** and install Chromium manually.
+
+**Example Dockerfile:**
+
+```dockerfile
+FROM n8nio/n8n:latest-debian
+
+USER root
+
+# Install Chromium and dependencies
+RUN apt-get update && \
+    apt-get install -y chromium chromium-driver && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Npilot node
+RUN cd /usr/local/lib/node_modules/n8n && \
+    npm install n8n-nodes-npilot
+
+# Set Chromium path
+ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
+
+USER node
+```
+
+Build and run:
+
+```bash
+docker build -t my-n8n-npilot .
+docker run -d -p 5678:5678 --shm-size=512m my-n8n-npilot
+```
+
+#### Option 2C — Build from source
+
+Clone the [GitHub repository](https://github.com/alee0510/n8n-npilot) to customize the image:
 
 ```bash
 git clone https://github.com/alee0510/n8n-npilot.git
@@ -129,11 +168,12 @@ cd n8n-npilot
 docker compose up -d
 ```
 
-The Docker image handles everything automatically:
+**What the Docker image includes:**
 
-- Installs Chromium from Alpine Linux packages
-- Installs `n8n-nodes-npilot` from the npm registry
-- Sets `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` and required environment variables
+- n8n (latest Debian-based image)
+- Chromium browser with all dependencies
+- `n8n-nodes-npilot` pre-installed from npm
+- `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` configured automatically
 
 ---
 
@@ -311,6 +351,18 @@ These options are available under the **Additional Options** section:
 ---
 
 ## Version history
+
+### [0.1.7] - 2026-05-28
+**Changed**
+- Updated README.md installation documentation for better clarity
+- Reorganized installation options to distinguish between native and Docker installations
+- Added warning about Alpine Linux incompatibility with Playwright
+- Improved Docker installation instructions with three clear sub-options
+
+**Documentation**
+- Clarified that Option 1 (Self-hosted) is for non-Docker installations only
+- Added explicit warnings about official n8n Docker image limitations
+- Improved Docker Compose examples and configuration details
 
 ### [0.1.6] - 2026-05-28
 **Added**
